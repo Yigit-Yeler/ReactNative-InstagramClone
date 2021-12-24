@@ -59,9 +59,6 @@ const App = () => {
               headerTintColor: 'white',
               headerLeft: () => (
                 <HeaderLeft />
-              ),
-              headerRight: () => (
-                <HeaderRight />
               )
 
             }}

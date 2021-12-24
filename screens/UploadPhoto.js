@@ -3,19 +3,48 @@ import { View, StyleSheet, TouchableOpacity, Text, Image, TextInput } from 'reac
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
-import { selectPhoto } from '../store/actions/selectPhoto';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { utils } from '@react-native-firebase/app';
+import { launchImageLibrary } from 'react-native-image-picker'
 import storage from '@react-native-firebase/storage'
 
-export default function UploadPhoto() {
+export default function UploadPhoto({ navigation }) {
     const { SelectPhoto } = useSelector(state => state)
     const dispatch = useDispatch()
+    const [imageUrl, setImgUrl] = useState()
 
-    const reference = storage().ref('images/').child("user/");
+    const reference = storage().ref('images/')
 
     const selectFile = () => {
-        dispatch(selectPhoto())
+        var options = {
+            title: 'Select Image',
+            customButtons: [
+                {
+                    name: 'customOptionKey',
+                    title: 'Choose file from Custom Option'
+                },
+            ],
+            storageOptions: {
+                skipBackup: true,
+                path: 'images',
+            },
+        };
+
+        launchImageLibrary(options, res => {
+            // console.log('Response = ', res);
+            if (res.didCancel) {
+                console.log('User cancelled image picker');
+            } else if (res.error) {
+                console.log('ImagePicker Error: ', res.error);
+            } else if (res.customButton) {
+                console.log('User tapped custom button: ', res.customButton);
+                alert(res.customButton);
+            } else {
+                var tmp = { "uri": res.assets[0].uri }
+                console.log(tmp)
+                setImgUrl(res.assets[0].uri)
+            }
+        });
     }
     return (
         <View style={styles.main}>
@@ -25,14 +54,14 @@ export default function UploadPhoto() {
                 alignItems: 'center'
             }}>
                 {
-                    SelectPhoto.data.uri ?
+                    imageUrl != null ?
 
                         (<TouchableOpacity
                             onPress={() => selectFile()}
                         >
                             <Image
                                 style={styles.image}
-                                source={{ uri: SelectPhoto.data.uri }} />
+                                source={{ uri: imageUrl }} />
                         </TouchableOpacity>)
                         :
                         <TouchableOpacity
@@ -59,7 +88,7 @@ export default function UploadPhoto() {
                         // const pathToFile = `${utils.FilePath.PICTURES_DIRECTORY}/black-t-shirt-sm.png`;
                         // uploads file
                         // await reference.putFile(pathToFile);
-                        await reference.putFile(SelectPhoto.data.uri);
+                        await reference.putFile(imageUrl);
 
                     }}
                 >
