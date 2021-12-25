@@ -6,7 +6,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
-import { getUserProfile } from '../store/actions/getUserProfile';
+import { getUserProfile } from '../../store/actions/getUserProfile';
 export default function ProfileTitle({ navigation }) {
 
     const { GetUserReducer } = useSelector(state => state)

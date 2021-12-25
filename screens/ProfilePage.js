@@ -1,9 +1,8 @@
 import React from 'react'
 import { View, Text, StyleSheet } from 'react-native'
-import HeaderIcons from '../components/HeaderIcons';
-import ProfilePosts from '../components/ProfilePosts';
+import ProfilePosts from '../components/profileComponents/ProfilePosts';
 
-import ProfileTitle from '../components/ProfileTitle';
+import ProfileTitle from '../components/profileComponents/ProfileTitle';
 
 export default Profile = ({ navigation }) => {
     return (

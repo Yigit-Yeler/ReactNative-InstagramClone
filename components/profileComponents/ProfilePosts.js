@@ -9,8 +9,6 @@ import { selectPhoto } from '../store/actions/selectPhoto';
 
 export default function ProfilePosts() {
 
-
-
     return (
         <View style={{ flex: 1.87 }}>
 
@@ -22,7 +20,6 @@ export default function ProfilePosts() {
                 />
             </View>
 
-
             <FlatGrid
                 itemDimension={100}
                 data={[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 1, 1]}
@@ -30,7 +27,6 @@ export default function ProfilePosts() {
                 renderItem={({ item }) => (<View style={styles.gridView}><Text>{item}</Text></View>)}
 
             />
-
         </View>
     )
 }

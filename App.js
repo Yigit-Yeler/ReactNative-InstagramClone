@@ -16,9 +16,9 @@ import HomePage from './screens/HomePage';
 import Profile from './screens/ProfilePage';
 import UploadPhoto from './screens/UploadPhoto';
 import Register from './screens/Register';
+import CreateUser from './screens/CreateUser';
 
-import HeaderIcons from './components/HeaderIcons';
-import HeaderRight from './components/uploadPhotoComponents/HeaderRight';
+import HeaderIcons from './components/profileComponents/HeaderIcons';
 import HeaderLeft from './components/uploadPhotoComponents/HeaderLeft';
 
 import { Provider } from 'react-redux';
@@ -40,6 +40,16 @@ const App = () => {
               headerTitleAlign: 'center'
             }}
           />
+          <Stack.Screen
+            name="CreateUser"
+            component={CreateUser}
+            options={{
+              headerStyle: { backgroundColor: 'black' },
+              headerTintColor: 'grey',
+              headerTitleAlign: 'center'
+            }}
+          />
+
           <Stack.Screen
             name="profile"
             component={Profile}

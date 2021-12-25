@@ -1,60 +1,41 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Text, View, StyleSheet, Image, TextInput, TouchableOpacity } from 'react-native'
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
+import { MaterialIndicator } from 'react-native-indicators';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
-import { register } from '../store/actions/register';
-import {
-    BallIndicator,
-    BarIndicator,
-    DotIndicator,
-    MaterialIndicator,
-    PacmanIndicator,
-    PulseIndicator,
-    SkypeIndicator,
-    UIActivityIndicator,
-    WaveIndicator,
-} from 'react-native-indicators';
-export default function Register({ navigation }) {
+import { getUserProfile } from '../store/actions/getUserProfile';
+import insertDataFirestore from '../coreFb/insertDataFirestore';
 
-    const { RegisterReducer } = useSelector(state => state)
+export default function Register({ navigation }) {
+    const [isLoading, setIsLoading] = useState(0)
+    const [userId, setUserId] = useState()
+
+    const { GetUserReducer } = useSelector(state => state)
     const dispatch = useDispatch()
 
     var tmpData = {
-        "e-posta": "",
-        "password": "",
-        "rePassword": ""
+        "username": "",
+        "name": "",
+        "surname": "",
+        "bio": ""
     }
+
+    useEffect(() => {
+        console.log(GetUserReducer.data.uid)
+        // setUserId(getCurrentUserId())
+        // console.log(userId)
+    }, [])
 
     const handleOnChange = (text, name) => {
         tmpData[name] = text
     }
 
     const handleRegister = () => {
-        if (tmpData["rePassword"] == tmpData["password"]) {
-            var tmpData2 = {
-                "e-posta": tmpData["e-posta"],
-                "password": tmpData["password"]
-            }
-            console.log(tmpData2)
-
-            dispatch(register(tmpData2))
-
-            console.log(RegisterReducer)
-
-        }
-        else {
-            alert("Your passwords does not match!!!")
-        }
+        setIsLoading(1)
+        dispatch(getUserProfile())
+        insertDataFirestore("data", GetUserReducer.data.uid, tmpData, navigation)
     }
-
-
-    if (RegisterReducer.loggedIn == true) {
-        setTimeout(() => {
-            navigation.navigate("CreateUser")
-        }, 1);
-    }
-
 
     return (
         <View style={styles.main}>
@@ -63,20 +44,26 @@ export default function Register({ navigation }) {
                 source={require('../assets/insta-logo.png')}
             />
             <TextInput
-                onChangeText={(text) => handleOnChange(text, "e-posta")}
-                placeholder={"Telefon numarası, e-posta adresi veya kullanıcı adı"}
+                onChangeText={(text) => handleOnChange(text, "username")}
+                placeholder={"Kullanıcı adınız"}
                 placeholderTextColor="lightgrey"
                 style={styles.input}
             />
             <TextInput
-                onChangeText={(text) => handleOnChange(text, "password")}
-                placeholder={"Şifre"}
+                onChangeText={(text) => handleOnChange(text, "name")}
+                placeholder={"İsminiz"}
                 placeholderTextColor="lightgrey"
                 style={styles.input}
             />
             <TextInput
-                onChangeText={(text) => handleOnChange(text, "rePassword")}
-                placeholder={"Şifre Tekrarı"}
+                onChangeText={(text) => handleOnChange(text, "surname")}
+                placeholder={"Soy isminiz"}
+                placeholderTextColor="lightgrey"
+                style={styles.input}
+            />
+            <TextInput
+                onChangeText={(text) => handleOnChange(text, "bio")}
+                placeholder={"Biyografiniz"}
                 placeholderTextColor="lightgrey"
                 style={styles.input}
             />
@@ -85,11 +72,12 @@ export default function Register({ navigation }) {
             >
                 <View style={styles.button}>
                     {
-                        RegisterReducer.isLoading || RegisterReducer.loggedIn == true ?
+                        isLoading == 1 ?
                             (<MaterialIndicator size={20} color="white" />)
                             :
-                            (<Text style={styles.text}>Kayıt Ol</Text>)
+                            (<Text style={styles.text}>Bilgileri kaydet</Text>)
                     }
+
 
                 </View>
             </TouchableOpacity>

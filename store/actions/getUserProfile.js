@@ -3,27 +3,39 @@ import {
     GET_DATA_SUCCESS,
     GET_DATA_ERROR
 } from "../types/firstTypes";
-import firestore from '@react-native-firebase/firestore';
+import auth from '@react-native-firebase/auth';
 
 export const getUserProfile = () => dispatch => {
     dispatch({ type: GET_DATA_START })
-    firestore()
-        .collection('data')
-        .doc("1XzVDLi8XAMURpgLoEYJ")
-        .get()
-        .then((snapshot) => {
-            if (snapshot.exists) {
-                var tmp = snapshot.data()
 
-                // console.log(tmp)
+    auth().onAuthStateChanged((user) => {
+        if (user) {
+            // User is signed in. 
+            dispatch({ type: GET_DATA_SUCCESS, payload: user })
+        }
+        else {
+            // No user is signed in.
+            dispatch({ type: GET_DATA_ERROR, message: "Giriş Yapılı değil" })
+        }
+    });
 
-                dispatch({ type: GET_DATA_SUCCESS, payload: tmp })
-            } else {
-                console.log("No doc...")
-            }
-        })
-        .catch((err) => {
-            dispatch({ type: GET_DATA_ERROR, message: err })
-            console.log("ERRROORR  " + err)
-        })
+    // firestore()
+    //     .collection('data')
+    //     .doc("1XzVDLi8XAMURpgLoEYJ")
+    //     .get()
+    //     .then((snapshot) => {
+    //         if (snapshot.exists) {
+    //             var tmp = snapshot.data()
+
+    //             // console.log(tmp)
+
+    //             dispatch({ type: GET_DATA_SUCCESS, payload: tmp })
+    //         } else {
+    //             console.log("No doc...")
+    //         }
+    //     })
+    //     .catch((err) => {
+    //         dispatch({ type: GET_DATA_ERROR, message: err })
+    //         console.log("ERRROORR  " + err)
+    //     })
 }
