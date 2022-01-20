@@ -49,7 +49,6 @@ const App = () => {
               headerTitleAlign: 'center'
             }}
           />
-
           <Stack.Screen
             name="profile"
             component={Profile}

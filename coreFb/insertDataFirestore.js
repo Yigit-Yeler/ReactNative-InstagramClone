@@ -14,6 +14,6 @@ export default function insertDataFirestore(
         })
         .then(() => {
             console.log('Datas inserted!');
-            navigation.navigate("uploadPhoto")
+            navigation.navigate("profile")
         });
 }

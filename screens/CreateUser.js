@@ -5,6 +5,7 @@ import { MaterialIndicator } from 'react-native-indicators';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import { getUserProfile } from '../store/actions/getUserProfile';
+import { getUserData } from '../store/actions/getUserData';
 import insertDataFirestore from '../coreFb/insertDataFirestore';
 
 export default function Register({ navigation }) {
@@ -22,6 +23,7 @@ export default function Register({ navigation }) {
     }
 
     useEffect(() => {
+        dispatch(getUserProfile())
         console.log(GetUserReducer.data.uid)
         // setUserId(getCurrentUserId())
         // console.log(userId)
@@ -33,8 +35,8 @@ export default function Register({ navigation }) {
 
     const handleRegister = () => {
         setIsLoading(1)
-        dispatch(getUserProfile())
         insertDataFirestore("data", GetUserReducer.data.uid, tmpData, navigation)
+        dispatch(getUserData(GetUserReducer.data.uid))
     }
 
     return (

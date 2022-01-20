@@ -15,10 +15,26 @@ export const getDatas = () => dispatch => {
             //setData(querySnapshot)
             var datas = []
             querySnapshot.forEach(documentSnapshot => {
-                //console.log('User ID: ', documentSnapshot.id, documentSnapshot.data());
+                console.log('User ID: ', documentSnapshot.id, documentSnapshot.data());
                 datas.push(documentSnapshot.data())
             });
             dispatch({ type: GET_DATA_SUCCESS, payload: datas })
         });
 
 }
+
+// dispatch({ type: GET_DATA_START })
+//     firestore()
+//         .collection('data')
+//         .doc("1XzVDLi8XAMURpgLoEYJ")
+//         .onSnapshot(querySnapshot => {
+//             //console.log('Total users: ', querySnapshot.size);
+//             //setData(querySnapshot)
+//             var datas = []
+//             console.log(querySnapshot.data())
+//             // querySnapshot.forEach(documentSnapshot => {
+//             //     console.log('User ID: ', documentSnapshot.id, documentSnapshot.data());
+//             //     datas.push(documentSnapshot.data())
+//             // });
+//             dispatch({ type: GET_DATA_SUCCESS, payload: datas })
+//         });

@@ -64,7 +64,7 @@ export default function Register({ navigation }) {
             />
             <TextInput
                 onChangeText={(text) => handleOnChange(text, "e-posta")}
-                placeholder={"Telefon numarası, e-posta adresi veya kullanıcı adı"}
+                placeholder={"Mail adresi"}
                 placeholderTextColor="lightgrey"
                 style={styles.input}
             />
