@@ -1,12 +1,12 @@
 import {
-    GET_DATA_START,
-    GET_DATA_SUCCESS,
-    GET_DATA_ERROR
-} from "../types/firstTypes";
+    REGISTER_START,
+    REGISTER_SUCCESS,
+    REGISTER_ERROR
+} from "../types/register";
 import auth from '@react-native-firebase/auth';
 
 export const register = (data) => dispatch => {
-    dispatch({ type: GET_DATA_START })
+    dispatch({ type: REGISTER_START })
     auth()
         .createUserWithEmailAndPassword(data["e-posta"], data["password"])
         .then(() => {
@@ -15,7 +15,7 @@ export const register = (data) => dispatch => {
                 .signInWithEmailAndPassword(data["e-posta"], data["password"])
                 .then(() => {
                     console.log("Giriş Yapıldı")
-                    dispatch({ type: GET_DATA_SUCCESS, payload: data })
+                    dispatch({ type: REGISTER_SUCCESS, payload: data })
                 })
                 .catch((e) => {
                     console.log("Hata Burda: " + e)

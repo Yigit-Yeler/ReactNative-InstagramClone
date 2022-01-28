@@ -16,23 +16,34 @@ import HomePage from './screens/HomePage';
 import Profile from './screens/ProfilePage';
 import UploadPhoto from './screens/UploadPhoto';
 import Register from './screens/Register';
+import Login from './screens/Login';
 import CreateUser from './screens/CreateUser';
 
 import HeaderIcons from './components/profileComponents/HeaderIcons';
 import HeaderLeft from './components/uploadPhotoComponents/HeaderLeft';
-
 import { Provider } from 'react-redux';
 import store from './store'
 
 const Stack = createNativeStackNavigator();
 
 const App = () => {
+
   return (
     <Provider store={store}>
       <NavigationContainer>
         <Stack.Navigator>
           <Stack.Screen
-            name="Kayıt Ol"
+            name="login"
+            component={Login}
+            options={{
+              headerStyle: { backgroundColor: 'black' },
+              title: "Giriş Yap",
+              headerTintColor: 'grey',
+              headerTitleAlign: 'center'
+            }}
+          />
+          <Stack.Screen
+            name="register"
             component={Register}
             options={{
               headerStyle: { backgroundColor: 'black' },

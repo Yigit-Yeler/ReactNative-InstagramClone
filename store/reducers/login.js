@@ -1,8 +1,8 @@
 import {
-    REGISTER_START,
-    REGISTER_SUCCESS,
-    REGISTER_ERROR
-} from "../types/register";
+    LOGIN_START,
+    LOGIN_SUCCESS,
+    LOGIN_ERROR
+} from "../types/loginTypes"
 
 const INITIAL_STATE = {
     isLoading: false,
@@ -10,18 +10,17 @@ const INITIAL_STATE = {
     message: '',
     loggedIn: false
 }
-
-const reducer = (state = INITIAL_STATE, action) => {
+const login = (state = INITIAL_STATE, action) => {
     switch (action.type) {
-        case REGISTER_START:
+        case LOGIN_START:
             return { ...state, isLoading: true, message: '' }
-        case REGISTER_SUCCESS:
+        case LOGIN_SUCCESS:
             return { ...state, data: action.payload, isLoading: false, loggedIn: true }
-        case REGISTER_ERROR:
+        case LOGIN_ERROR:
             return { ...state, message: action.payload, isLoading: false }
         default:
             return state;
     }
 }
 
-export default reducer;
+export default login;

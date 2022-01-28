@@ -31,21 +31,16 @@ export default function Register({ navigation }) {
     }
 
     const handleRegister = () => {
-        if (tmpData["rePassword"] == tmpData["password"]) {
-            var tmpData2 = {
-                "e-posta": tmpData["e-posta"],
-                "password": tmpData["password"]
-            }
-            console.log(tmpData2)
-
-            dispatch(register(tmpData2))
-
-            console.log(RegisterReducer)
-
+        var tmpData2 = {
+            "e-posta": tmpData["e-posta"],
+            "password": tmpData["password"]
         }
-        else {
-            alert("Your passwords does not match!!!")
-        }
+        console.log(tmpData2)
+
+        // dispatch(register(tmpData2))
+
+        console.log(RegisterReducer)
+
     }
 
 

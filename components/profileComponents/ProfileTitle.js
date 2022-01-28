@@ -17,8 +17,7 @@ export default function ProfileTitle({ navigation }) {
     const dispatch = useDispatch()
 
     useEffect(() => {
-        setUserId(GetUserReducer.data.uid)
-        // dispatch(getUserData(GetUserReducer.data.uid))
+        dispatch(getUserData(GetUserReducer.data.uid))
         // const willFocusSubscription = navigation.addListener('focus', () => {
         //     dispatch(getUserData(GetUserReducer.data.uid))
         // });
@@ -65,14 +64,14 @@ export default function ProfileTitle({ navigation }) {
                     <Text style={{ color: 'white' }}>Yükleniyor...</Text>
                     :
                     <Text style={{ color: 'white', fontWeight: '700' }}>
-                        {GetUserReducer.data.name}
+                        {GetUserDataReducer.data.name} {GetUserDataReducer.data.surname}
                     </Text>
                 }
                 {GetUserDataReducer.isLoading ?
                     <Text style={{ color: 'white' }}>Yükleniyor...</Text>
                     :
                     <Text style={{ color: 'white' }}>
-                        {GetUserReducer.data.bio}
+                        {GetUserDataReducer.data.bio}
                     </Text>
                 }
             </View>

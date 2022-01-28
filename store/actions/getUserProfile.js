@@ -1,21 +1,21 @@
 import {
-    GET_DATA_START,
-    GET_DATA_SUCCESS,
-    GET_DATA_ERROR
-} from "../types/firstTypes";
+    GET_USER_PROFILE_START,
+    GET_USER_PROFILE_SUCCESS,
+    GET_USER_PROFILE_ERROR
+} from "../types/getUserProfile";
 import auth from '@react-native-firebase/auth';
 
 export const getUserProfile = () => dispatch => {
-    dispatch({ type: GET_DATA_START })
+    dispatch({ type: GET_USER_PROFILE_START })
 
     auth().onAuthStateChanged((user) => {
         if (user) {
             // User is signed in. 
-            dispatch({ type: GET_DATA_SUCCESS, payload: user })
+            dispatch({ type: GET_USER_PROFILE_SUCCESS, payload: user })
         }
         else {
             // No user is signed in.
-            dispatch({ type: GET_DATA_ERROR, message: "Giriş Yapılı değil" })
+            dispatch({ type: GET_USER_PROFILE_ERROR, message: "Giriş Yapılı değil" })
         }
     });
 
