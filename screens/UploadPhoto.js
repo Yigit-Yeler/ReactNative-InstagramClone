@@ -1,16 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import { View, StyleSheet, TouchableOpacity, Text, Image, TextInput } from 'react-native'
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
-import { useSelector } from 'react-redux';
-import { useDispatch } from 'react-redux';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { utils } from '@react-native-firebase/app';
 import { launchImageLibrary } from 'react-native-image-picker'
 import storage from '@react-native-firebase/storage'
 
 export default function UploadPhoto({ navigation }) {
-    const { SelectPhoto } = useSelector(state => state)
-    const dispatch = useDispatch()
     const [imageUrl, setImgUrl] = useState()
 
     const reference = storage().ref('images/')

@@ -18,6 +18,7 @@ import UploadPhoto from './screens/UploadPhoto';
 import Register from './screens/Register';
 import Login from './screens/Login';
 import CreateUser from './screens/CreateUser';
+import UpdateProfile from './screens/UpdateProfile';
 
 import HeaderIcons from './components/profileComponents/HeaderIcons';
 import HeaderLeft from './components/uploadPhotoComponents/HeaderLeft';
@@ -32,6 +33,16 @@ const App = () => {
     <Provider store={store}>
       <NavigationContainer>
         <Stack.Navigator>
+          <Stack.Screen
+            name="updateProfile"
+            component={UpdateProfile}
+            options={{
+              headerStyle: { backgroundColor: 'black' },
+              title: "Profili Düzenle",
+              headerTintColor: 'white',
+              headerTitleAlign: 'left'
+            }}
+          />
           <Stack.Screen
             name="login"
             component={Login}

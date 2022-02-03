@@ -36,7 +36,6 @@ export default function Register({ navigation }) {
     const handleRegister = () => {
         setIsLoading(1)
         insertDataFirestore("data", GetUserReducer.data.uid, tmpData, navigation)
-        dispatch(getUserData(GetUserReducer.data.uid))
     }
 
     return (

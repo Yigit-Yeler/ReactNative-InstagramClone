@@ -24,8 +24,8 @@ export default function ProfileTitle({ navigation }) {
         // return willFocusSubscription;
     }, [])
 
-    const sa = () => {
-        console.log(GetUserDataReducer.data)
+    const updateProfile = () => {
+        navigation.navigate('updateProfile')
     }
 
     return (
@@ -33,7 +33,7 @@ export default function ProfileTitle({ navigation }) {
             <View style={styles.profile}>
                 <Image
                     style={styles.image}
-                    source={{ uri: 'https://i.pinimg.com/originals/67/68/e4/6768e47d53b56f6e7ec4531955b96175.jpg' }} />
+                    source={require('../../assets/defaultpp.jpg')} />
                 <View style={styles.profileDetail}>
                     <Text style={{ fontWeight: '700', color: 'white' }}>
                         7
@@ -77,7 +77,7 @@ export default function ProfileTitle({ navigation }) {
             </View>
             <View style={{ flexDirection: 'row', marginLeft: wp('5%'), marginTop: hp('1.5%') }}>
                 <TouchableOpacity
-                    onPress={sa}
+                    onPress={updateProfile}
                 >
                     <View style={styles.editProfile}>
                         <Text style={{ color: 'white' }}>Profili Düzenle</Text>
