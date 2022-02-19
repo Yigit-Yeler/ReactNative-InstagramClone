@@ -33,16 +33,7 @@ const App = () => {
     <Provider store={store}>
       <NavigationContainer>
         <Stack.Navigator>
-          <Stack.Screen
-            name="updateProfile"
-            component={UpdateProfile}
-            options={{
-              headerStyle: { backgroundColor: 'black' },
-              title: "Profili Düzenle",
-              headerTintColor: 'white',
-              headerTitleAlign: 'left'
-            }}
-          />
+
           <Stack.Screen
             name="login"
             component={Login}
@@ -82,6 +73,16 @@ const App = () => {
                 <HeaderIcons />
               )
             }} />
+          <Stack.Screen
+            name="updateProfile"
+            component={UpdateProfile}
+            options={{
+              headerStyle: { backgroundColor: 'black' },
+              title: "Profili Düzenle",
+              headerTintColor: 'white',
+              headerTitleAlign: 'left'
+            }}
+          />
           <Stack.Screen
             name="uploadPhoto"
             component={UploadPhoto}

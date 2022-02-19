@@ -12,11 +12,13 @@ export default function ProfileTitle({ navigation }) {
     const { GetUserReducer } = useSelector(state => state)
     const { GetUserDataReducer } = useSelector(state => state)
 
-    const [userId, setUserId] = useState()
+    const [profilePhoto, setProfilePhoto] = useState()
 
     const dispatch = useDispatch()
 
     useEffect(() => {
+        setProfilePhoto(GetUserReducer.data.photoURL)
+
         dispatch(getUserData(GetUserReducer.data.uid))
         // const willFocusSubscription = navigation.addListener('focus', () => {
         //     dispatch(getUserData(GetUserReducer.data.uid))
@@ -31,9 +33,17 @@ export default function ProfileTitle({ navigation }) {
     return (
         <View style={{ flex: 1 }}>
             <View style={styles.profile}>
-                <Image
-                    style={styles.image}
-                    source={require('../../assets/defaultpp.jpg')} />
+                {
+                    GetUserReducer.data.photoURL != null ?
+                        <Image
+                            style={styles.image}
+                            source={{ uri: GetUserReducer.data.photoURL }} />
+                        :
+                        <Image
+                            style={styles.image}
+                            source={require('../../assets/defaultpp.jpg')} />
+                }
+
                 <View style={styles.profileDetail}>
                     <Text style={{ fontWeight: '700', color: 'white' }}>
                         7

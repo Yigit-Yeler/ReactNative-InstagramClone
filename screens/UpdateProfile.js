@@ -1,12 +1,33 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Text, View, StyleSheet, Image } from 'react-native';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { launchImageLibrary } from 'react-native-image-picker'
 import { TouchableOpacity } from 'react-native';
+import { useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import auth from '@react-native-firebase/auth';
+import { getUserProfile } from '../store/actions/getUserProfile';
 
 export default function UpdateProfile() {
 
+    const { GetUserReducer } = useSelector(state => state)
+    const dispatch = useDispatch()
+
     const [imgUrl, setImgUrl] = useState()
+
+    useEffect(() => {
+        setImgUrl(GetUserReducer.data.photoURL)
+    }, [])
+
+
+    const updateProfile = async () => {
+        let update = {
+            photoURL: imgUrl
+        }
+
+        await auth().currentUser.updateProfile(update)
+        dispatch(getUserProfile())
+    }
 
     const selectFile = () => {
         var options = {
@@ -66,6 +87,16 @@ export default function UpdateProfile() {
                 </TouchableOpacity>
 
             </View>
+
+            <View style={styles.textView}>
+                <TouchableOpacity
+                    onPress={updateProfile} >
+                    <Text style={{ color: 'blue' }}>
+                        Kaydet
+                    </Text>
+                </TouchableOpacity>
+
+            </View>
         </View>
     );
 }
@@ -76,9 +107,9 @@ const styles = StyleSheet.create({
         backgroundColor: 'black'
     },
     image: {
-        width: wp('20%'),
-        height: wp('20%'),
-        borderRadius: wp('20%') / 2,
+        width: wp('30%'),
+        height: wp('30%'),
+        borderRadius: wp('30%') / 2,
     },
     imageView: {
         flexDirection: 'row',
