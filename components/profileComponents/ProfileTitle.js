@@ -19,11 +19,11 @@ export default function ProfileTitle({ navigation }) {
     useEffect(() => {
         setProfilePhoto(GetUserReducer.data.photoURL)
 
-        dispatch(getUserData(GetUserReducer.data.uid))
-        // const willFocusSubscription = navigation.addListener('focus', () => {
-        //     dispatch(getUserData(GetUserReducer.data.uid))
-        // });
-        // return willFocusSubscription;
+
+        const willFocusSubscription = navigation.addListener('focus', () => {
+            dispatch(getUserData(GetUserReducer.data.uid))
+        });
+        return willFocusSubscription;
     }, [])
 
     const updateProfile = () => {

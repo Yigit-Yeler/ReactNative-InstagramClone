@@ -78,7 +78,7 @@ const App = () => {
             component={UpdateProfile}
             options={{
               headerStyle: { backgroundColor: 'black' },
-              title: "Profili Düzenle",
+              title: "Edit Profile",
               headerTintColor: 'white',
               headerTitleAlign: 'left'
             }}

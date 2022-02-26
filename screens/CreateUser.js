@@ -24,6 +24,7 @@ export default function Register({ navigation }) {
 
     useEffect(() => {
         dispatch(getUserProfile())
+        setUserId(GetUserReducer.data.uid)
         console.log(GetUserReducer.data.uid)
         // setUserId(getCurrentUserId())
         // console.log(userId)
@@ -35,7 +36,7 @@ export default function Register({ navigation }) {
 
     const handleRegister = () => {
         setIsLoading(1)
-        insertDataFirestore("data", GetUserReducer.data.uid, tmpData, navigation)
+        insertDataFirestore("data", userId, tmpData, navigation)
     }
 
     return (
