@@ -4,11 +4,37 @@ import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-nat
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { launchImageLibrary } from 'react-native-image-picker'
 import storage from '@react-native-firebase/storage'
+import { useSelector } from 'react-redux';
 
 export default function UploadPhoto({ navigation }) {
     const [imageUrl, setImgUrl] = useState()
 
-    const reference = storage().ref('images/')
+    const { GetUserReducer } = useSelector(state => state)
+
+    const [date, setDate] = useState("")
+
+    const reference = storage().ref(GetUserReducer.data.uid + "/").child(date + "/")
+
+    const getDate = () => {
+        var date = new Date().getDate(); //Current Date
+        var month = new Date().getMonth() + 1; //Current Month
+        var year = new Date().getFullYear(); //Current Year
+        var hours = new Date().getHours(); //Current Hours
+        var min = new Date().getMinutes(); //Current Minutes
+        var sec = new Date().getSeconds(); //Current Seconds
+
+        hours += 8
+        if (hours < 24) {
+            setDate(date + '-' + month + '-' + year
+                + ' ' + hours + ':' + min + ':' + sec)
+        }
+        else {
+            date++
+            setDate(date + '-' + month + '-' + year
+                + ' ' + hours + ':' + min + ':' + sec)
+        }
+
+    }
 
     const selectFile = () => {
         var options = {
@@ -60,7 +86,10 @@ export default function UploadPhoto({ navigation }) {
                         </TouchableOpacity>)
                         :
                         <TouchableOpacity
-                            onPress={() => selectFile()}
+                            onPress={() => {
+                                getDate()
+                                selectFile()
+                            }}
                         >
                             <View style={styles.uploadPhoto} >
                                 <Text style={{ fontWeight: '700', color: 'black' }}>
