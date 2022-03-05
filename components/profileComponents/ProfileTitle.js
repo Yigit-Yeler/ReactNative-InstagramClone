@@ -34,10 +34,10 @@ export default function ProfileTitle({ navigation }) {
         <View style={{ flex: 1 }}>
             <View style={styles.profile}>
                 {
-                    GetUserReducer.data.photoURL != null ?
+                    profilePhoto != null ?
                         <Image
                             style={styles.image}
-                            source={{ uri: GetUserReducer.data.photoURL }} />
+                            source={{ uri: profilePhoto }} />
                         :
                         <Image
                             style={styles.image}
