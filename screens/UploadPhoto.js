@@ -4,16 +4,33 @@ import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-nat
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { launchImageLibrary } from 'react-native-image-picker'
 import storage from '@react-native-firebase/storage'
+import firestore from '@react-native-firebase/firestore';
 import { useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import { insertNestedDataFirestore } from '../coreFb/insertDataFirestore';
+import { getPosts } from '../store/actions/getPosts';
+import { Button } from 'react-native-elements';
+
 
 export default function UploadPhoto({ navigation }) {
     const [imageUrl, setImgUrl] = useState()
-
-    const { GetUserReducer } = useSelector(state => state)
-
     const [date, setDate] = useState("")
+    const [desc, setDesc] = useState("")
+    const [uid, setUid] = useState("")
 
-    const reference = storage().ref(GetUserReducer.data.uid + "/").child(date + "/")
+    const dispatch = useDispatch();
+    const { GetUserReducer } = useSelector(state => state)
+    const { GetPostsReducer } = useSelector(state => state)
+
+
+    useEffect(() => {
+        setUid(GetUserReducer.data.uid)
+    }, [])
+
+
+
+
+    const reference = storage().ref(uid + "/").child(date + "/")
 
     const getDate = () => {
         var date = new Date().getDate(); //Current Date
@@ -23,16 +40,18 @@ export default function UploadPhoto({ navigation }) {
         var min = new Date().getMinutes(); //Current Minutes
         var sec = new Date().getSeconds(); //Current Seconds
 
-        hours += 8
-        if (hours < 24) {
-            setDate(date + '-' + month + '-' + year
-                + ' ' + hours + ':' + min + ':' + sec)
-        }
-        else {
-            date++
-            setDate(date + '-' + month + '-' + year
-                + ' ' + hours + ':' + min + ':' + sec)
-        }
+        setDate(date + '-' + month + '-' + year
+            + ' ' + hours + ':' + min + ':' + sec)
+        // hours += 8
+        // if (hours < 24) {
+        //     setDate(date + '-' + month + '-' + year
+        //         + ' ' + hours + ':' + min + ':' + sec)
+        // }
+        // else {
+        //     date++
+        //     setDate(date + '-' + month + '-' + year
+        //         + ' ' + hours + ':' + min + ':' + sec)
+        // }
 
     }
 
@@ -67,12 +86,14 @@ export default function UploadPhoto({ navigation }) {
             }
         });
     }
+
     return (
         <View style={styles.main}>
             <View style={{
                 flexDirection: 'row',
                 justifyContent: 'center',
-                alignItems: 'center'
+                alignItems: 'center',
+                flex: 1
             }}>
                 {
                     imageUrl != null ?
@@ -100,27 +121,44 @@ export default function UploadPhoto({ navigation }) {
                 }
 
                 <TextInput
+                    onChangeText={(text) => setDesc(text)}
                     placeholder="Açıkama yaz..."
                     placeholderTextColor="grey"
                     style={styles.input}
                 />
             </View>
-            <View>
+            <View
+                style={styles.saveView}
+            >
                 <TouchableOpacity
+                    style={styles.button}
                     onPress={async () => {
+                        await reference.putFile(imageUrl);
+                        const url = await reference.getDownloadURL();
+                        var tmpData = {
+                            "desc": desc,
+                            "img": url,
+                            "like": 0,
+                            "uid": uid,
+                            "date": firestore.Timestamp.fromMillis(Date.now())
+                        }
+                        insertNestedDataFirestore("posts", GetUserReducer.data.uid, "post", "", tmpData, navigation)
                         // path to existing file on filesystem
                         // const pathToFile = `${utils.FilePath.PICTURES_DIRECTORY}/black-t-shirt-sm.png`;
                         // uploads file
                         // await reference.putFile(pathToFile);
-                        await reference.putFile(imageUrl);
-
                     }}
                 >
-                    <Icon
+                    <Text
+                        style={{ color: "#4B39E6", fontSize: 20 }}
+                    >
+                        Upload
+                    </Text>
+                    {/* <Icon
                         name="check"
                         color="#4B39E6"
                         size={wp('7%')}
-                    />
+                    /> */}
                 </TouchableOpacity>
             </View>
         </View>
@@ -131,7 +169,6 @@ const styles = StyleSheet.create({
     main: {
         flex: 1,
         backgroundColor: 'black',
-
     },
     image: {
         width: wp('25%'),
@@ -147,6 +184,19 @@ const styles = StyleSheet.create({
         width: wp('25%'),
         height: wp('25%'),
         backgroundColor: 'grey',
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+    saveView: {
+        width: wp('100%'),
+        flex: 4,
+        justifyContent: 'flex-start',
+        alignItems: 'center'
+    },
+    button: {
+        width: wp('30%'),
+        height: wp('10%'),
+        backgroundColor: "black",
         justifyContent: 'center',
         alignItems: 'center'
     }

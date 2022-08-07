@@ -239,6 +239,4 @@ const styles = StyleSheet.create({
         textAlign: 'left',
         width: wp("90%"),
     }
-
-
 })

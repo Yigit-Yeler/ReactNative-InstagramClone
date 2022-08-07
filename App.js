@@ -19,6 +19,7 @@ import Register from './screens/Register';
 import Login from './screens/Login';
 import CreateUser from './screens/CreateUser';
 import UpdateProfile from './screens/UpdateProfile';
+import MyPost from './screens/MyPost';
 
 import HeaderIcons from './components/profileComponents/HeaderIcons';
 import HeaderLeft from './components/uploadPhotoComponents/HeaderLeft';
@@ -87,10 +88,18 @@ const App = () => {
             component={UploadPhoto}
             options={{
               headerStyle: { backgroundColor: 'black' },
+              title: "Add Post",
               headerTintColor: 'white',
-              headerLeft: () => (
-                <HeaderLeft />
-              )
+
+            }}
+          />
+          <Stack.Screen
+            name="myPost"
+            component={MyPost}
+            options={{
+              headerStyle: { backgroundColor: 'black' },
+              title: "Post",
+              headerTintColor: 'white',
 
             }}
           />

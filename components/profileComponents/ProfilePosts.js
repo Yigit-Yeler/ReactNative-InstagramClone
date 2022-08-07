@@ -7,8 +7,9 @@ import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import { selectPhoto } from '../store/actions/selectPhoto';
 import storage from '@react-native-firebase/storage';
+import firestore from '@react-native-firebase/firestore';
 import { getPosts } from '../../store/actions/getPosts';
-export default function ProfilePosts() {
+export default function ProfilePosts({ navigation }) {
 
     const { GetUserReducer } = useSelector(state => state)
     const { GetPostsReducer } = useSelector(state => state)
@@ -16,10 +17,30 @@ export default function ProfilePosts() {
     const dispatch = useDispatch()
 
     useEffect(() => {
-        setUserId(GetUserReducer.data.uid)
-        dispatch(getPosts(GetUserReducer.data.uid))
+        const willFocusSubscription = navigation.addListener('focus', () => {
+            dispatch(getPosts(GetUserReducer.data.uid))
+        });
+        return willFocusSubscription;
     }, [])
 
+
+    const openPost = async (url) => {
+        var data
+        await firestore()
+            .collection('posts')
+            .doc(GetUserReducer.data.uid)
+            .collection("post")
+            // Filter results
+            .where('img', '==', url)
+            .get()
+            .then(querySnapshot => {
+                querySnapshot.forEach(doc => {
+                    data = doc.data()
+                })
+            });
+
+        navigation.navigate("myPost", data)
+    }
     // console.log(GetPostsReducer.datas)
 
 
@@ -42,7 +63,7 @@ export default function ProfilePosts() {
 
 
     return (
-        <View style={{ flex: 1.87 }}>
+        <View style={{ flex: 2.4 }}>
 
             <View style={styles.posts}>
                 <Icon
@@ -53,37 +74,29 @@ export default function ProfilePosts() {
             </View>
 
 
-            <TouchableOpacity
-                onPress={() => {
-                    // listFilesAndDirectories(reference).then(() => {
-                    //     console.log('Finished listing');
-                    // });
 
-                    // Now we get the references of these images
+            {
+                GetPostsReducer.datas != [] ?
+                    <FlatGrid
+                        itemDimension={100}
+                        data={GetPostsReducer.datas}
+                        nestedScrollEnabled
+                        renderItem={({ item }) => (
+                            <TouchableOpacity
+                                onPress={() => openPost(item)}>
+                                <Image style={styles.images} source={{ uri: item }} />
+                            </TouchableOpacity>
+                        )}
 
-                }}
-            >
-                {
-                    GetPostsReducer.datas != [] ?
-                        <FlatGrid
-                            itemDimension={100}
-                            data={GetPostsReducer.datas}
-                            nestedScrollEnabled
-                            renderItem={({ item }) => (
-                                <Image style={styles.images} source={{ uri: item }}></Image>
-                            )}
+                    /> :
+                    <FlatGrid
+                        itemDimension={100}
+                        data={[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 1, 1]}
+                        nestedScrollEnabled
+                        renderItem={({ item }) => (<View style={styles.gridView}><Text>{item}</Text></View>)}
 
-                        /> :
-                        <FlatGrid
-                            itemDimension={100}
-                            data={[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 1, 1]}
-                            nestedScrollEnabled
-                            renderItem={({ item }) => (<View style={styles.gridView}><Text>{item}</Text></View>)}
-
-                        />
-                }
-
-            </TouchableOpacity>
+                    />
+            }
         </View>
     )
 }

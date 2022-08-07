@@ -8,7 +8,7 @@ export default Profile = ({ navigation }) => {
     return (
         <View style={styles.main}>
             <ProfileTitle navigation={navigation} />
-            <ProfilePosts />
+            <ProfilePosts navigation={navigation} />
         </View>
     )
 }

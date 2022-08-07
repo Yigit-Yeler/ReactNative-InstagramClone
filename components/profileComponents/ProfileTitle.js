@@ -18,8 +18,6 @@ export default function ProfileTitle({ navigation }) {
 
     useEffect(() => {
         setProfilePhoto(GetUserReducer.data.photoURL)
-
-
         const willFocusSubscription = navigation.addListener('focus', () => {
             dispatch(getUserData(GetUserReducer.data.uid))
         });
@@ -111,7 +109,7 @@ export default function ProfileTitle({ navigation }) {
 
 const styles = StyleSheet.create({
     profile: { flexDirection: 'row' },
-    image: { width: wp('20%'), height: wp('20%'), borderRadius: wp('20%') / 2, margin: wp('3%') },
+    image: { width: wp('25%'), height: wp('25%'), borderRadius: wp('25%') / 2, margin: wp('3%') },
     profileDetail: {
         width: wp("20%"),
         height: wp("20%"),
@@ -124,9 +122,9 @@ const styles = StyleSheet.create({
     introduction: { marginLeft: wp('5%') },
     editProfile: {
         width: wp('80%'),
-        height: hp('5%'),
-        borderWidth: wp('0.1%'),
-        borderColor: 'white',
+        height: hp('4%'),
+        borderWidth: wp('0.3%'),
+        borderColor: 'grey',
         justifyContent: 'center',
         alignItems: 'center'
     },
